@@ -1,0 +1,32 @@
+<h1>NetSuite Sales Order Debug  e.g 13099893</h1>
+
+<%= form_with url: fetch_order_path, method: :post do |f| %>
+  <div>
+    <%= f.label :order_id, "Order ID" %>
+    <%= f.text_field :order_id %>
+  </div>
+  <div>
+    <%= f.label :auth_type, "Authentication Type" %>
+   <%= f.select :auth_type, [['OAuth 2.0', 'oauth2'], ['OAuth 1.0', 'oauth1'], ['Token-based Auth', 'tba']], selected: 'oauth1' %>
+  </div>
+  <div>
+    <%= f.submit "Fetch Order" %>
+  </div>
+<% end %>
+
+
+<% if @result %>
+  <h2>Response Data:</h2>
+  <pre><%= JSON.pretty_generate(@result) %></pre>
+<% end %>
+<% if @error_message %>
+  <h2>Error Message:</h2>
+  <pre><%= @error_message %></pre>
+<% end %>
+<% if @logs %>
+  <h2>Response Data:</h2>
+  <% @logs.each do |log| %>
+    <pre><%= log.created_at %></pre>
+    <pre><%= log.message %></pre>
+  <% end %>
+<% end %>
